@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UTH LED · Aligned + Weather Badge Review · 7 Nov 2026</title>
+<style>
+:root{color-scheme:dark;font-family:Inter,"Noto Sans Thai",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:#07101c;color:#e7f5fc}
+main{max-width:1080px;padding:30px 20px 65px;margin:0 auto}
+h1{font-size:clamp(23px,4vw,35px);margin:0 0 9px;font-weight:850;line-height:1.3}
+h2{font-size:18px;margin:0 0 12px}
+p{line-height:1.7;font-size:14px;color:#adc6d4;margin:8px 0}
+b,strong{color:#fff}
+.notice{border:1px solid #ecb35b;background:#2e2215;color:#ffe3b4;padding:12px 16px;border-radius:8px;margin:20px 0;font-size:13px;line-height:1.6}
+.panel{background:#0c1c2d;border:1px solid #2c526b;border-radius:16px;padding:18px;margin:18px 0 22px}
+.led-img{width:min(100%,864px);height:auto;display:block;aspect-ratio:10.8;object-fit:contain;border:1px solid #407792;border-radius:6px;background:#020910}
+.led-wrap{margin:14px 0}
+.caption{font-size:12px;color:#a3becb;margin-top:9px;line-height:1.6}
+.controls{display:flex;flex-wrap:wrap;gap:8px;margin:15px 0}
+button{border:1px solid #3b657f;color:#ceeefa;background:#112942;font-family:inherit;font-weight:750;font-size:13px;line-height:1.3;border-radius:9px;padding:8px 13px;cursor:pointer}
+button[aria-pressed="true"]{background:#1c5f7c;color:white;border-color:#94e3f4}
+button:focus-visible,a:focus-visible{outline:2px solid #f2c16b;outline-offset:3px}
+.refs{display:flex;gap:15px;flex-wrap:wrap;font-size:13px;margin-top:20px}
+a{color:#7fe0fa}
+.footer{font-size:12px;color:#a0b9c7}
+@media(max-width:500px){main{padding:18px 10px}.panel{padding:12px}button{font-size:12px;padding:7px 9px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<main>
+<p>UTH LED · 7 NOV 2026 · REVIEW ONLY</p>
+<h1>Aligned Typography ทั้ง 3 หน้า + Weather Warning Badges</h1>
+<p>Owner ได้ <strong>APPROVE Aligned Design ทั้ง 3 หน้าแล้ว</strong> หน้านี้ใช้ตรวจการจัดป้าย Feels Like และ Heat Warning รุ่นแก้ไข ก่อนนำขึ้น Production เท่านั้น</p>
+<div class="notice"><strong>SIMULATED QA FIXTURE — ไม่ใช่ข้อมูลตรวจวัดจริง</strong> ตัวเลขและข้อความในภาพเป็นข้อมูลทดสอบเพื่อดูตำแหน่งตัวอักษรบนจอ 432×40 px เท่านั้น ไม่แสดงผลอากาศ ฝุ่น หรือระดับน้ำปัจจุบัน ภาพสร้างจาก DOM/CSS ของ Candidate SHA 68f7151</div>
+<section class="panel" aria-labelledby="wx-title">
+<h2 id="wx-title">Weather · ตำแหน่งป้ายใหม่</h2>
+<p>Feels Like อยู่ด้านบน และ Heat Warning อยู่ด้านล่างของตัวเลขหลัก โดยไม่ชน °C, Clock หรือ Forecast ใช้ไอคอน Thermometer และ Warning Triangle แบบกระชับ</p>
+<div class="controls" role="group" aria-label="เลือกกรณีทดสอบ Weather">
+<button type="button" data-case="hot" aria-pressed="true">ร้อนจัด</button>
+<button type="button" data-case="warm" aria-pressed="false">ร้อน</button>
+<button type="button" data-case="long-warning" aria-pressed="false">คำเตือนยาว</button>
+<button type="button" data-case="historical" aria-pressed="false">HISTORICAL</button>
+<button type="button" data-case="unavailable" aria-pressed="false">UNAVAILABLE</button>
+<button type="button" data-case="triple-digit" aria-pressed="false">ตัวเลขหลายหลัก</button>
+<button type="button" data-case="reduced-motion" aria-pressed="false">Reduced Motion</button>
+</div>
+<figure class="led-wrap">
+<img class="led-img" id="weather" src="./weather-hot-432x40.png" width="1296" height="120" alt="Weather LED ภาพทดสอบจำลอง กรณีอากาศร้อนจัด มีป้ายเตือนโดยไม่ทับอุณหภูมิ">
+<figcaption id="weather-caption" class="caption" aria-live="polite">SIMULATED · ร้อนจัด — แสดง Feels Like และ Heat Warning คนละตำแหน่ง</figcaption>
+</figure>
+</section>
+<section class="panel" aria-labelledby="pm-title">
+<h2 id="pm-title">PM2.5 · Aligned (APPROVED)</h2>
+<img class="led-img" src="./pm-aligned-432x40.png" width="1296" height="120" alt="PM2.5 Aligned Typography ด้วยค่าทดสอบจำลอง ไม่ใช่ค่าฝุ่นจริง">
+<p class="caption">SIMULATED · Font 100px / Weight 900 · Clock เดิม</p>
+</section>
+<section class="panel" aria-labelledby="water-title">
+<h2 id="water-title">Water Level · สองสถานี (APPROVED)</h2>
+<img class="led-img" src="./water-aligned-432x40.png" width="1296" height="120" alt="Water Level สองสถานีปรับฟอนต์ในภาพทดสอบ ไม่ใช่ระดับน้ำปัจจุบัน">
+<p class="caption">SIMULATED · Font 68px / Weight 1000 · แถวค่าระดับน้ำเลื่อนลง 4 board px เพื่อไม่ชนรายละเอียดสถานี</p>
+</section>
+<p class="footer">ภาพเป็น Static Browser Screenshot จาก Chrome เท่านั้น • ตรวจ 432×40 / Mobile / Reduced Motion ด้วยสคริปต์ QA ใน PR #97 • Physical LED และ iPhone Safari ยังไม่ยืนยัน • ไม่มีการแก้ Google Sheet / Apps Script / Warning Logic</p>
+<nav class="refs" aria-label="หลักฐานและการอ้างอิง">
+<a href="../typography-review-20261106/?v=8367836">Typography Reference ที่อนุมัติแล้ว</a>
+<a href="../storm-motion-20261106/">Weather Animation Preview</a>
+<a href="https://github.com/aase7en/webapp-widget/pull/97">Production Integration PR #97</a>
+<a href="https://github.com/aase7en/webapp-widget/pull/95">Weather Motion PR #95</a>
+</nav>
+</main>
+<script>
+"use strict";
+const choices={
+  hot:["weather-hot-432x40.png","ร้อนจัด — แสดงป้ายบน/ล่างครบ"],
+  warm:["weather-warm-432x40.png","ร้อน — ข้อความสั้น"],
+  "long-warning":["weather-long-warning-432x40.png","คำเตือนยาว — แสดง Compact Badge และเก็บคำเตือนเต็มใน Accessibility"],
+  historical:["weather-historical-432x40.png","HISTORICAL — ไม่แสดงคำเตือนว่าเป็นสถานะปัจจุบัน"],
+  unavailable:["weather-unavailable-432x40.png","UNAVAILABLE — แสดงข้อมูลไม่พร้อม ไม่เติมค่า 0"],
+  "triple-digit":["weather-triple-digit-432x40.png","ตัวเลขหลายหลัก — °C ยังไม่โดน Forecast บัง"],
+  "reduced-motion":["weather-reduced-motion-432x40.png","Reduced Motion — ภาพเมฆแบบ Static Poster"]
+};
+document.querySelectorAll("button[data-case]").forEach(btn=>{
+ btn.addEventListener("click",()=>{
+  const chosen=btn.dataset.case,config=choices[chosen];
+  if(!config)return;
+  document.querySelectorAll("button[data-case]").forEach(el=>el.setAttribute("aria-pressed",String(el===btn)));
+  const img=document.getElementById("weather");
+  img.src="./"+config[0];img.alt="SIMULATED QA Weather 432×40: "+config[1];
+  document.getElementById("weather-caption").textContent="SIMULATED · "+config[1];
+ });
+});
+</script>
+</body>
+</html>
