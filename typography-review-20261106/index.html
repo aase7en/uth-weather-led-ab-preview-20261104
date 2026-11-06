@@ -24,9 +24,10 @@ button:focus-visible{outline:2px solid white;outline-offset:2px}
 .view img{display:block;max-width:none;image-rendering:auto;border-radius:5px;height:auto}
 .frame{position:relative;max-width:none;width:max-content;margin:3px 0 10px}
 .frame-caption{font-size:11px;letter-spacing:.05em;color:#a4e2fa;margin-bottom:4px;font-weight:850}
+.screen{position:relative;width:max-content}
 .center-guide{pointer-events:none;position:absolute;left:0;right:0;top:50%;border-top:1px dashed rgba(255,212,100,.85);display:none;z-index:2}
 body.guides .center-guide{display:block}
-body.guides .frame{outline:1px dashed #e2bb5499}
+body.guides .screen{outline:1px dashed #e2bb5499}
 
 .detail{font-size:12px;color:#8caec4;margin-top:5px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
@@ -52,9 +53,9 @@ a{color:#98ebff}
 <button id="zoom" aria-pressed="false">Zoom 3×</button>
 <button id="guides" aria-pressed="false">เส้นกึ่งกลาง</button>
 </section>
-<section class="panel"><div class="meta"><span>PM2.5 · ตัวเลขตัวอย่าง 32 µg/m³</span><span id="pm-label">CURRENT</span></div><div class="view"><img id="pm" src="pm-current-432x40.png" alt="ภาพจำลองหน้า PM2.5 เพื่อเปรียบเทียบตัวเลข" width="432" height="40"></div><div class="detail">ใช้ฉากและแถบสีเดิม เปลี่ยนเฉพาะตัวเลขตัวอย่างเพื่อเปรียบเทียบตำแหน่ง</div></section>
-<section class="panel"><div class="meta"><span>Weather · ตัวเลขตัวอย่าง 31°C</span><span id="weather-label">CURRENT</span></div><div class="view"><img id="weather" src="weather-current-432x40.png" alt="ภาพจำลองหน้า Weather เพื่อเปรียบเทียบตัวเลข" width="432" height="40"></div><div class="detail">ไอคอนเมฆใหม่ปรากฏในภาพ แต่ภาพนี้เป็นเฟรมภาพนิ่งสำหรับเทียบตัวเลข ไม่ใช่ไฟล์ Animation</div></section>
-<section class="panel"><div class="meta"><span>Water Level · ตัวเลขตัวอย่าง 3.21 / 4.06 ม.รทก.</span><span id="water-label">CURRENT</span></div><div class="view"><img id="water" src="water-current-432x40.png" alt="ภาพจำลองหน้าระดับน้ำสองสถานีสำหรับเปรียบเทียบตัวเลข" width="432" height="40"></div><div class="detail">แสดง 2 สถานีซึ่งต้องรักษาพื้นที่ชื่อสถานีและกราฟ จึงไม่ได้ขยายตัวเลขให้เท่า PM2.5</div></section>
+<section class="panel"><div class="meta"><span>PM2.5 · ตัวเลขตัวอย่าง 32 µg/m³</span><span id="pm-label">CURRENT</span></div><div class="view" id="pm-view"><img id="pm" src="pm-current-432x40.png" alt="ภาพจำลองหน้า PM2.5 เพื่อเปรียบเทียบตัวเลข" width="432" height="40"></div><div class="detail">ใช้ฉากและแถบสีเดิม เปลี่ยนเฉพาะตัวเลขตัวอย่างเพื่อเปรียบเทียบตำแหน่ง</div></section>
+<section class="panel"><div class="meta"><span>Weather · ตัวเลขตัวอย่าง 31°C</span><span id="weather-label">CURRENT</span></div><div class="view" id="weather-view"><img id="weather" src="weather-current-432x40.png" alt="ภาพจำลองหน้า Weather เพื่อเปรียบเทียบตัวเลข" width="432" height="40"></div><div class="detail">ไอคอนเมฆใหม่ปรากฏในภาพ แต่ภาพนี้เป็นเฟรมภาพนิ่งสำหรับเทียบตัวเลข ไม่ใช่ไฟล์ Animation</div></section>
+<section class="panel"><div class="meta"><span>Water Level · ตัวเลขตัวอย่าง 3.21 / 4.06 ม.รทก.</span><span id="water-label">CURRENT</span></div><div class="view" id="water-view"><img id="water" src="water-current-432x40.png" alt="ภาพจำลองหน้าระดับน้ำสองสถานีสำหรับเปรียบเทียบตัวเลข" width="432" height="40"></div><div class="detail">แสดง 2 สถานีซึ่งต้องรักษาพื้นที่ชื่อสถานีและกราฟ จึงไม่ได้ขยายตัวเลขให้เท่า PM2.5</div></section>
 <div class="grid">
 <div class="stat"><b>Current</b><p>PM2.5 112px / weight 1000; Weather 92px / weight 900; Water 66px / weight 1000 (ทั้งสามหน้าใช้พิกัดต้นฉบับ 1296×120)</p></div>
 <div class="stat"><b>Aligned (ทดสอบ)</b><p>เสนอ PM2.5 100px / weight 900, Weather 90px / weight 900 และ Water 68px / weight 1000 พร้อมปรับแนวตั้ง แต่คงนาฬิกาและพื้นที่ข้อมูลเดิม</p></div>
@@ -83,13 +84,18 @@ a{color:#98ebff}
     picture.style.width=432*scale+"px";
     picture.style.height=40*scale+"px";
     const line=document.createElement("span");line.className="center-guide";
-    wrap.append(caption,picture,line);
+    const screen=document.createElement("div");
+    screen.className="screen";
+    screen.style.width=(432*scale)+"px";
+    screen.style.height=(40*scale)+"px";
+    screen.append(picture,line);
+    wrap.append(caption,screen);
     return wrap;
   }
   function render(){
     const all=variant==="compare"?["current","aligned"]:[variant];
     for(const subject of subjects){
-      const view=$(subject).parentElement;
+      const view=$(subject+"-view");
       view.replaceChildren(...all.map(k=>frame(subject,k)));
       $(subject+"-label").textContent=variant==="compare"?"BEFORE / AFTER":variant==="current"?"CURRENT":"ALIGNED / PROPOSED";
       // Preserve the id on the first actual comparison image for basic screen readers and QA.
