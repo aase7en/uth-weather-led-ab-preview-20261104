@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UTH LED — PM2.5 / Weather Number Alignment Review</title>
+<meta name="color-scheme" content="dark">
+<style>
+:root{font-family:Inter,system-ui,"Thonburi",sans-serif;color:#e6f5ff;background:#061422}
+*{box-sizing:border-box}
+body{margin:0;padding:22px 14px;background:radial-gradient(ellipse at 45% -10%,#1a4a6c,#061422 65%);min-height:100vh}
+main{max-width:900px;margin:auto}
+.eyebrow{color:#8cdfff;font-weight:850;letter-spacing:.12em;font-size:11px}
+h1{font-size:clamp(20px,4vw,29px);line-height:1.24;margin:8px 0}
+p{color:#b1cedf;font-size:13px;line-height:1.65;margin:8px 0 16px}
+p strong{color:#fff}
+.controls{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+button{padding:10px 15px;border:1px solid #426681;border-radius:8px;background:#122b45;color:#d7efff;font-size:13px;font-weight:750;cursor:pointer}
+button[aria-pressed=true]{background:#16587f;border-color:#8be3ff;color:#fff;box-shadow:0 0 0 1px #64d7ff44}
+button:focus-visible{outline:2px solid white;outline-offset:2px}
+.panel{border:1px solid #345b73;background:#102437dd;border-radius:13px;padding:14px 12px;margin-bottom:12px}
+.meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px;font-weight:800;margin-bottom:7px;color:#9bdbf1}
+.view{overflow-x:auto;max-width:100%;padding:3px 0 8px}
+.view img{display:block;max-width:none;image-rendering:auto;border-radius:5px;height:auto}
+.detail{font-size:12px;color:#8caec4;margin-top:5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.stat{padding:12px;background:#0b2539;border:1px solid #244f6b;border-radius:9px}
+.stat b{color:#fff}
+.stat p{margin:4px 0 0}
+.status{margin-top:16px;font-size:12px;color:#d5c59e}
+a{color:#98ebff}
+</style>
+</head>
+<body>
+<main>
+<div class="eyebrow">UTH • VISUAL REVIEW • LED 432×40</div>
+<h1>ตัวเลข PM2.5 และอุณหภูมิ — จัดแนวให้สมดุลกับนาฬิกา</h1>
+<p><strong>ภาพเทียบจาก CSS หน้าเว็บจริง โดยแทนค่าตัวเลขเป็น SIMULATED เพื่อดู Layout เท่านั้น</strong> นาฬิกายังใช้รูปแบบเดิม ไม่เปลี่ยน Production ในตัวอย่างนี้</p>
+<section class="controls" aria-label="Compare variants">
+<button id="current" aria-pressed="true">แบบใช้งานปัจจุบัน</button>
+<button id="aligned" aria-pressed="false">แบบจัดกึ่งกลาง (เสนอ)</button>
+</section>
+<section class="controls" aria-label="Zoom LED">
+<button id="native" aria-pressed="true">LED จริง 432×40</button>
+<button id="zoom" aria-pressed="false">Zoom 3×</button>
+</section>
+<section class="panel"><div class="meta"><span>PM2.5 · ตัวเลขตัวอย่าง 32 µg/m³</span><span id="pm-label">CURRENT</span></div><div class="view"><img id="pm" src="pm-current-432x40.png" alt="ภาพจำลองหน้า PM2.5 เพื่อเปรียบเทียบตัวเลข" width="432" height="40"></div><div class="detail">ใช้ฉากและแถบสีเดิม เปลี่ยนเฉพาะตัวเลขตัวอย่างเพื่อเปรียบเทียบตำแหน่ง</div></section>
+<section class="panel"><div class="meta"><span>Weather · ตัวเลขตัวอย่าง 31°C</span><span id="wx-label">CURRENT</span></div><div class="view"><img id="weather" src="weather-current-432x40.png" alt="ภาพจำลองหน้า Weather เพื่อเปรียบเทียบตัวเลข" width="432" height="40"></div><div class="detail">ไอคอนเมฆใหม่ปรากฏในภาพ แต่ภาพนี้เป็นเฟรมภาพนิ่งสำหรับเทียบตัวเลข ไม่ใช่ไฟล์ Animation</div></section>
+<div class="grid">
+<div class="stat"><b>Current</b><p>PM2.5 ใช้ font-size 112px / weight 1000 ส่วน Weather ใช้ 92px / weight 900 ในพิกัด Board ต้นฉบับ 1296×120</p></div>
+<div class="stat"><b>Aligned (ทดสอบ)</b><p>ปรับ PM เป็น 100px / weight 900 และ Weather เป็น 90px / weight 900 พร้อมปรับแนวตั้งให้ศูนย์กลางภาพใกล้กัน โดยไม่ขยับนาฬิกา</p></div>
+</div>
+<p class="status">เป้าหมายคือ Optical Alignment (จัดสมดุลด้วยสายตา) ไม่ใช่การบังคับ CSS font-size เท่ากัน เนื่องจากรูปร่างฟอนต์และหน่วยแตกต่างกัน</p>
+<p><a href="../storm-motion-20261106/">ดู Rain + Thunderstorm Animation รุ่นใหม่</a> · <a href="https://aase7en.github.io/webapp-widget/">เปิด Production ปัจจุบัน</a></p>
+</main>
+<script>
+(()=>{let variant="current",scale=1;const q=id=>document.getElementById(id);function render(){for(const what of ["pm","weather"]){const node=q(what);node.src=what+"-"+variant+"-432x40.png";node.width=432*scale;node.height=40*scale;node.style.width=(432*scale)+"px";node.style.height=(40*scale)+"px"}q("pm-label").textContent=q("wx-label").textContent=variant==="current"?"CURRENT":"ALIGNED / PROPOSED";q("current").setAttribute("aria-pressed",String(variant==="current"));q("aligned").setAttribute("aria-pressed",String(variant==="aligned"));q("native").setAttribute("aria-pressed",String(scale===1));q("zoom").setAttribute("aria-pressed",String(scale===3))}q("current").onclick=()=>{variant="current";render()};q("aligned").onclick=()=>{variant="aligned";render()};q("native").onclick=()=>{scale=1;render()};q("zoom").onclick=()=>{scale=3;render()};render()})();
+</script>
+</body>
+</html>
