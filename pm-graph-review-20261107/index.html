@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UTH LED — PM2.5 Graph Expansion · Owner Review</title>
+<style>
+:root{color-scheme:dark;font-family:Inter,"Noto Sans Thai",system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:#06101c;color:#eff8ff}
+main{max-width:1160px;margin:auto;padding:28px 18px 60px}
+h1{font-size:clamp(23px,4vw,34px);margin:4px 0 12px}h2{font-size:20px;margin:0 0 9px}
+p{font-size:14px;line-height:1.7;color:#b9d4e0}
+.note{background:#302318;border:1px solid #b78a52;padding:13px 16px;border-radius:9px;font-size:13px;color:#ffe4b8;line-height:1.6}
+.panel{margin:18px 0;padding:16px;background:#0d2031;border:1px solid #34627b;border-radius:14px}
+.controls{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0}
+button{cursor:pointer;padding:8px 13px;border-radius:9px;background:#102c41;border:1px solid #3b7691;color:#eaf9ff;font-size:13px;font-weight:750}
+button[aria-pressed=true]{background:#206688;border-color:#9feaff}
+button:focus-visible,a:focus-visible{outline:2px solid #ffe08b;outline-offset:3px}
+.grid{display:grid;grid-template-columns:1fr;gap:12px}
+h3{font-size:14px;margin:8px 0}
+.led{display:block;width:100%;height:auto;aspect-ratio:10.8;border:1px solid #4685a0;border-radius:6px;background:#020a14}
+small{display:block;margin:7px 0;color:#a6c6d6;font-size:12px;line-height:1.5}
+a{color:#8de1ff}.foot{margin-top:24px;font-size:12px}
+@media(max-width:520px){main{padding:18px 9px}.panel{padding:11px}}
+</style></head>
+<body><main>
+<p>UTH LED · 7 NOV 2026 · OWNER APPROVED DESIGN + FINAL GRAPH TWEAK</p>
+<h1>PM2.5 · ขยับแถบสีและขยายกราฟไปทางซ้าย</h1>
+<p>ความกว้างกราฟเพิ่มจาก 101 เป็น 111 พิกเซลบนจอ LED 432×40 โดยคงขอบขวาและป้ายคำเตือนไว้ที่เดิม ส่วนตัวเลขหลายหลักใช้ Adaptive Layout เพื่อเว้นระยะจากหน่วย µg/m³</p>
+<div class="note"><strong>SIMULATED QA — ไม่ใช่ข้อมูลตรวจวัดจริง</strong>
+ภาพทั้งหมดสร้างจาก PM2.5 renderer เดิมของระบบโดยใช้ข้อมูลจำลองเพื่อทดสอบการจัดวางเท่านั้น Weather และ Water Level ยังคงตามดีไซน์ที่อนุมัติแล้ว ยังไม่ได้ Deploy Production</div>
+<section class="panel">
+<h2>เปรียบเทียบ Before / After</h2>
+<div class="controls" role="group" aria-label="เลือกสถานะฝุ่นที่จำลอง">
+<button data-tier="blue" aria-pressed="false">ดีมาก</button>
+<button data-tier="green" aria-pressed="true">ดี</button>
+<button data-tier="yellow" aria-pressed="false">ปานกลาง</button>
+<button data-tier="orange" aria-pressed="false">เริ่มมีผลต่อสุขภาพ</button>
+<button data-tier="red" aria-pressed="false">มีผลต่อสุขภาพ</button>
+<button data-tier="unavailable" aria-pressed="false">ไม่มีข้อมูล</button>
+</div>
+<div class="grid">
+<div><h3>ก่อนปรับ · กราฟกว้าง 101 px</h3><img class="led" id="before" width="1296" height="120" alt="ภาพจำลอง PM2.5 ก่อนขยายกราฟ" src="../owner-review-20261107/pm-owner-green-432x40.png"></div>
+<div><h3>หลังปรับ · กราฟกว้าง 111 px</h3><img class="led" id="after" width="1296" height="120" alt="ภาพจำลอง PM2.5 หลังขยายกราฟ" src="pm-owner-green-432x40.png"></div>
+</div>
+<p id="case" aria-live="polite">SIMULATED · สีเขียว / ดี · ตัวเลขภาพไม่ใช่ค่าฝุ่นปัจจุบัน</p>
+</section>
+<section class="panel"><h2>กรณีค่าฝุ่นหลายหลัก: 1000 µg/m³ (ทดสอบขอบเขต)</h2>
+<img class="led" src="pm-graph-wide-1000-432x40.png" alt="ภาพจำลองกรณีค่าฝุ่น 1000 มีกราฟเลื่อนขวาตามความกว้างเลขเพื่อไม่ให้ทับหน่วย" width="1296" height="120">
+<small>SIMULATED · ค่าจำลองที่ใช้ตรวจ Overflow เท่านั้น ไม่ใช่รายงานค่าฝุ่นจริง และกราฟว่างเพราะไม่ได้ส่ง History ในกรณีทดสอบนี้</small>
+</section>
+<p class="foot">Candidate exact commit: b54afd1697719be7559e7f90849ac2d3ddba7f53 · Tests 522/522 PASS · Browser 432×40 DPR3 PASS · Physical LED/iPhone Safari UNVERIFIED<br>
+<a href="https://github.com/aase7en/webapp-widget/pull/97">ดู PR #97</a> · <a href="../owner-review-20261107/">ดูสามหน้ารอบก่อน</a>
+</p>
+</main>
+<script>"use strict";
+const labels={blue:"ดีมาก",green:"ดี",yellow:"ปานกลาง",orange:"เริ่มมีผลต่อสุขภาพ",red:"มีผลต่อสุขภาพ",unavailable:"ไม่มีข้อมูล"};
+document.querySelectorAll("button[data-tier]").forEach(button=>button.addEventListener("click",()=>{
+ const key=button.dataset.tier;if(!Object.prototype.hasOwnProperty.call(labels,key))return;
+ document.querySelectorAll("button[data-tier]").forEach(x=>x.setAttribute("aria-pressed",String(x===button)));
+ document.getElementById("before").src="../owner-review-20261107/pm-owner-"+key+"-432x40.png";
+ document.getElementById("after").src="./pm-owner-"+key+"-432x40.png";
+ document.getElementById("case").textContent="SIMULATED · "+labels[key]+" · ก่อนและหลังปรับจากข้อมูลทดสอบ ไม่ใช่ค่าฝุ่นปัจจุบัน";
+}));
+</script></body></html>
