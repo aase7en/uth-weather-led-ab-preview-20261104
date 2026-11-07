@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>UTH LED — Owner Feedback Review · 7 November 2026</title>
+<style>
+:root{color-scheme:dark;font-family:Inter,"Noto Sans Thai",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:#06111e;color:#eff8ff}
+main{margin:auto;max-width:1150px;padding:28px 18px 60px}
+h1{font-size:clamp(22px,4vw,33px);margin:4px 0 12px}
+h2{font-size:19px;margin:0 0 8px}
+p{font-size:14px;line-height:1.65;color:#b9d2e1}
+.notice{color:#ffe9bd;background:#292014;border:1px solid #b78a4c;border-radius:9px;padding:13px;margin:20px 0;font-size:13px;line-height:1.65}
+.panel{background:#0b2033;border:1px solid #315e76;padding:16px;border-radius:14px;margin:18px 0}
+img.led{width:100%;max-width:1040px;height:auto;aspect-ratio:10.8;display:block;border:1px solid #337993;border-radius:5px;background:#020810;margin:13px 0}
+button{font:750 13px inherit;background:#17324a;color:#e0f6ff;border:1px solid #39738e;padding:8px 12px;margin:4px 6px 4px 0;border-radius:8px;cursor:pointer}
+button[aria-pressed=true]{background:#1c6285;color:#fff;border-color:#9ae5ff}
+button:focus-visible,a:focus-visible{outline:2px solid #ffda8f;outline-offset:3px}
+a{color:#9be5ff}
+small,.note{color:#afc9d7;font-size:12px;line-height:1.6}
+footer{margin-top:25px;color:#b3c9d6}
+@media(max-width:520px){main{padding:18px 10px 40px}.panel{padding:11px}button{padding:8px}}
+</style>
+</head>
+<body><main>
+<p>UTH LED · OWNER FEEDBACK ROUND · 7 NOV 2026</p>
+<h1>ตัวอย่าง Water Clock + PM2.5 ป้ายใหญ่ขึ้น</h1>
+<p>นี่คือภาพจากโค้ดที่แก้จริงบน candidate branch ของ <strong>webapp-widget</strong> ที่ขนาด 432×40 พิกเซล โดย Weather คงรูปแบบที่ได้รับการยืนยันแล้ว</p>
+<div class="notice"><strong>SIMULATED QA — ไม่ใช่ค่าฝุ่นหรือระดับน้ำที่ตรวจวัดจริง</strong><div>ทุกภาพเป็น Browser Screenshot จาก renderer ของ Production แต่ใส่ข้อมูลจำลองที่ควบคุมได้ เพื่อทดสอบตำแหน่งและข้อความเท่านั้น ยังไม่ Deploy Production และยังไม่ผ่านการตรวจดูบนจอ LED จริง</div></div>
+<section class="panel"><h2>1. PM2.5 · เลือกระดับสีเพื่อดูป้ายและคำแนะนำ</h2>
+<p>ขยับก้อน PM2.5 / ตัวเลข / หน่วยไปซ้าย 2 px, ขยับแถบสีและกราฟให้ชิดขึ้น, ขยายป้ายสถานะ และใช้ไอคอน SVG ลายเส้นสีขาวสำหรับคำสั้น</p>
+<div role="group" aria-label="เลือกระดับ PM2.5 ที่จำลอง">
+<button data-tier="blue" type="button" aria-pressed="false">ดีมาก</button>
+<button data-tier="green" type="button" aria-pressed="true">ดี</button>
+<button data-tier="yellow" type="button" aria-pressed="false">ปานกลาง</button>
+<button data-tier="orange" type="button" aria-pressed="false">เริ่มมีผลต่อสุขภาพ</button>
+<button data-tier="red" type="button" aria-pressed="false">มีผลต่อสุขภาพ</button>
+<button data-tier="unavailable" type="button" aria-pressed="false">ไม่มีข้อมูล</button>
+</div>
+<img class="led" id="pm" src="pm-owner-green-432x40.png" alt="ภาพจำลอง PM2.5 ระดับดี มีไอคอนเส้นสีขาวและคำแนะนำ" width="1296" height="120">
+<div id="pm-label" class="note" role="status" aria-live="polite">SIMULATED · สีเขียว / ดี · ภาพทดสอบ ไม่ใช่ค่าฝุ่นปัจจุบัน</div>
+</section>
+<section class="panel"><h2>2. Water Level · นาฬิกาไม่ถูกตัดขอบอีก</h2>
+<p>ตัวเลขเวลา 23:59 แสดงครบด้านขวาสุดของนาฬิกาและลอยเหนือ Layer ตกแต่ง โดยไม่เปลี่ยนตำแหน่งสองสถานี</p>
+<img class="led" src="water-owner-clock-432x40.png" alt="ภาพจำลองสองสถานี HDA004 และ S.5 มีเวลา 23:59 แสดงครบไม่ถูกขอบตัด" width="1296" height="120">
+<div class="note">SIMULATED · ค่าระดับน้ำ 3.21 และ 4.06 ใช้ทดสอบ layout เท่านั้น — ป้าย “ข้อมูลเก่า” ต้องไม่ถูกแสดงเป็น LIVE</div>
+</section>
+<section class="panel"><h2>3. Weather · รูปแบบเดิมที่คุณยืนยันว่า OK</h2>
+<p>คง Weather layout, ข้อความ Feels Like และ Heat Warning ตำแหน่งเดิม ไม่มีการออกแบบหน้าตาใหม่ในรอบนี้</p>
+<img class="led" src="../badge-review-20261107/weather-hot-432x40.png" alt="ภาพตัวอย่าง Weather ที่อนุมัติรูปแบบแล้ว ข้อมูลจำลอง" width="1296" height="120">
+<a href="../badge-review-20261107/">เปิด Weather Badge Review แบบเลือกสถานะอื่น ๆ</a>
+</section>
+<footer class="note">Candidate SHA: b48c4ae07a35425ba44c40601db4747194cc45a8 · Automated Tests 522/522 PASS · Chrome browser QA 432×40 PASS · Actual iPhone Safari / physical LED ยังไม่ยืนยัน
+<p><a href="https://github.com/aase7en/webapp-widget/pull/97">ดู Production Integration PR #97</a> · <a href="../typography-review-20261106/?v=8367836">Typography ที่เคยอนุมัติ</a></p>
+</footer>
+</main><script>
+"use strict";
+const labels={
+ blue:"ดีมาก",green:"ดี",yellow:"ปานกลาง",orange:"เริ่มมีผลต่อสุขภาพ",
+ red:"มีผลต่อสุขภาพ",unavailable:"ไม่มีข้อมูล"
+};
+document.querySelectorAll("button[data-tier]").forEach(button=>button.addEventListener("click",()=>{
+ const tier=button.dataset.tier;
+ if(!Object.prototype.hasOwnProperty.call(labels,tier))return;
+ document.querySelectorAll("button[data-tier]").forEach(x=>x.setAttribute("aria-pressed",String(x===button)));
+ const image=document.getElementById("pm");
+ image.src="pm-owner-"+tier+"-432x40.png";
+ image.alt="ภาพจำลอง PM2.5 ระดับ"+labels[tier]+" ไม่ใช่ข้อมูลตรวจวัดจริง";
+ document.getElementById("pm-label").textContent="SIMULATED · "+labels[tier]+" · ใช้ทดสอบการแสดงผลเท่านั้น";
+}));
+</script></body></html>
