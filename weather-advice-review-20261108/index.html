@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UTH LED | Weather Health Advice and no-shrink temperature · 2026-11-08</title>
+<style>
+:root{color-scheme:dark;font-family:Inter,"Noto Sans Thai",system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:#061322;color:#f2faff}
+main{margin:auto;max-width:1110px;padding:24px 16px 55px}
+h1{font-size:clamp(22px,4vw,32px);margin:5px 0 10px}
+h2{font-size:19px;margin:0 0 10px}h3{font-size:14px;margin:0 0 7px}
+p{font-size:14px;line-height:1.7;color:#b9d5e4}
+small{font-size:12px;line-height:1.6;color:#afcbd8}
+.meta{font-size:12px;letter-spacing:.08em;color:#94d6f3}
+.notice{padding:13px 15px;border-radius:9px;background:#282016;border:1px solid #bb8945;color:#ffe8c2;font-size:13px;line-height:1.7;margin:17px 0}
+.section{margin:19px 0;padding:17px;border:1px solid #34617c;background:#0b2134;border-radius:14px}
+.led{display:block;width:100%;height:auto;aspect-ratio:10.8;background:#020a13;border:1px solid #307793;border-radius:6px}
+.controls{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0}
+button{font:750 13px Inter,"Noto Sans Thai",system-ui,sans-serif;color:#e9faff;background:#163b51;border:1px solid #3e84a3;border-radius:8px;cursor:pointer;padding:9px 12px}
+button[aria-pressed=true]{background:#236d8b;color:#fff;border-color:#a3efff}
+button:focus-visible,a:focus-visible{outline:2px solid #ffe4a0;outline-offset:3px}
+a{color:#9be5ff}
+.compare{display:grid;grid-template-columns:1fr;gap:12px}
+.note{color:#b9d5e4;font-size:13px;margin-top:12px}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:10px 0}
+td,th{padding:8px;border-bottom:1px solid #2d4f66;text-align:left}
+footer{font-size:12px;color:#a8c5d5;margin-top:23px;line-height:1.7}
+@media(max-width:520px){main{padding:16px 9px 35px}.section{padding:11px}.controls{gap:5px}button{padding:8px 10px}}
+</style></head>
+<body><main>
+<p class="meta">UTH LED · WEATHER-ONLY CANDIDATE · 8 NOV 2026</p>
+<h1>ป้ายคำแนะนำใต้ตัวเลข + เลขอุณหภูมิขนาดเท่าเดิม</h1>
+<p>ทดสอบบนจอ 432×40 px: คงตัวเลขขนาด 90px ในทุกกรณี รวมเลข 100 และ 1000 โดยขยับไปทางซ้ายแทนการย่อ ขณะเดียวกันเพิ่มป้ายสุขภาพใต้เลข โดยไม่บัง °C, Feels Like, คำเตือนเดิม และ Forecast</p>
+<div class="notice"><strong>SIMULATED QA — ไม่ใช่สภาพอากาศจริงหรือประกาศเตือนจากหน่วยงานราชการ</strong>
+<div>ภาพเป็นผล Screenshot จาก Production Renderer บน Candidate Branch โดยป้อนข้อมูลจำลองที่ควบคุมได้เท่านั้น เว็บไซต์ Production ยังไม่ได้เปลี่ยนในรอบนี้</div></div>
+<section class="section"><h2>1. ทดลองเลือกสถานการณ์</h2>
+<div class="controls" role="group" aria-label="เลือกตัวอย่างสภาพอากาศจำลอง">
+<button data-case="cold" aria-pressed="false">10°C เสื้อกันหนาว</button>
+<button data-case="mild" aria-pressed="true">24°C ปกติ</button>
+<button data-case="sun" aria-pressed="false">30°C เลี่ยงแดด</button>
+<button data-case="heat" aria-pressed="false">36°C Heatstroke</button>
+<button data-case="triple" aria-pressed="false">100°C ทดสอบ 3 หลัก</button>
+<button data-case="quad" aria-pressed="false">1000°C ทดสอบ 4 หลัก</button>
+<button data-case="missing" aria-pressed="false">ไม่มีข้อมูล</button>
+<button data-case="historical" aria-pressed="false">ข้อมูลเก่า</button>
+</div>
+<img class="led" id="candidate" src="weather-mild-432x40.png" width="1296" height="120" alt="ภาพจำลอง Weather 24°C พร้อมป้ายอากาศไม่ร้อนจัด">
+<p class="note" id="case-label" aria-live="polite">SIMULATED · 24°C · ป้ายอากาศไม่ร้อนจัด · ไม่ใช่ค่าตรวจวัดจริง</p>
+</section>
+<section class="section"><h2>2. เปรียบเทียบตัวเลข 1000 — ก่อน/หลัง</h2>
+<div class="compare">
+<div><h3>ก่อนปรับ — รุ่นก่อนย่อ Font</h3><img class="led" src="../weather-water-review-20261108/weather-1000-432x40.png" width="1296" height="120" alt="ภาพทดสอบรุ่นก่อน ตัวเลข 1000 ถูกย่อขนาด"></div>
+<div><h3>หลังปรับ — Font 90px ขนาดเดิมทุกหลัก</h3><img class="led" src="weather-quad-432x40.png" width="1296" height="120" alt="ภาพทดสอบรุ่นใหม่ ตัวเลข 1000 ขนาด 90px และเลื่อนซ้ายแทนย่อ พร้อมป้ายตรวจสอบข้อมูล"></div>
+</div>
+<p class="note">100°C และ 1000°C ในภาพเป็นเพียง <strong>Stress Test</strong> (การทดสอบขอบเขต) จึงขึ้น “ตรวจสอบข้อมูล” ไม่แสดงเป็นเหตุการณ์ Heatstroke ที่เกิดขึ้นจริง</p>
+</section>
+<section class="section"><h2>3. หลักการจัดคำแนะนำ</h2>
+<table><thead><tr><th>สถานการณ์</th><th>ข้อความบน LED</th></tr></thead>
+<tbody>
+<tr><td>อากาศเย็น</td><td>สวมเสื้อให้อุ่น / พกเสื้อกันหนาว</td></tr>
+<tr><td>อากาศทั่วไป</td><td>อากาศไม่ร้อนจัด</td></tr>
+<tr><td>Heat Index เริ่มสูง</td><td>พักและดื่มน้ำ</td></tr>
+<tr><td>Heat Index สูง</td><td>หลีกเลี่ยงแดดจัด</td></tr>
+<tr><td>Heat Index อันตราย</td><td>ระวัง Heatstroke</td></tr>
+<tr><td>ค่าผิดปกติ / ไม่มีข้อมูล</td><td>ตรวจสอบข้อมูล / ซ่อนป้าย</td></tr>
+</tbody></table>
+<p class="note">Heat Index (ดัชนีความร้อน) รวมอุณหภูมิและความชื้น อิงช่วงเกณฑ์ US National Weather Service ไม่ใช่ประกาศเตือนภัยทางการของไทย ส่วนป้ายสวมเสื้อเป็นคำแนะนำทั่วไป ไม่ใช่เกณฑ์อันตรายสากล และไม่ใช้คำว่า “ไม่อันตราย” เพราะไม่มีอุณหภูมิเดียวที่ปลอดภัยต่อทุกคน</p>
+<p><small>แหล่งอ้างอิง: <a href="https://www.weather.gov/ama/heatindex">NWS Heat Index</a> · <a href="https://www.who.int/en/news-room/fact-sheets/detail/climate-change-heat-and-health">WHO Heat and health (2026)</a> · <a href="https://www.cdc.gov/heat-health/about/index.html">CDC Heat and Your Health</a></small></p>
+</section>
+<footer>Production Integration: <a href="https://github.com/aase7en/webapp-widget/pull/98">PR #98</a> · exact code SHA <code>5d76aecec424281e4fa500aa05f63bcb4ee29314</code> · 529/529 local tests PASS · Browser QA 13 states 432×40 DPR3 PASS · physical LED / iPhone Safari not verified
+<p><a href="../weather-water-review-20261108/">ดู Water และ °C รอบก่อนที่อนุมัติแล้ว</a> · <a href="https://aase7en.github.io/webapp-widget/">เว็บ Production เดิม</a></p></footer>
+</main>
+<script>"use strict";
+const samples={cold:"10°C · สวมเสื้อให้อุ่น",mild:"24°C · อากาศไม่ร้อนจัด",sun:"30°C · หลีกเลี่ยงแดดจัด",heat:"36°C · ระวัง Heatstroke",triple:"100°C · ตรวจสอบข้อมูล",quad:"1000°C · ตรวจสอบข้อมูล",missing:"ไม่มีข้อมูล · ไม่แสดงคำแนะนำสุขภาพ",historical:"ข้อมูลเก่า · ไม่แสดงคำแนะนำสุขภาพ"};
+document.querySelectorAll("button[data-case]").forEach(button=>button.addEventListener("click",()=>{
+const key=button.dataset.case;if(!Object.prototype.hasOwnProperty.call(samples,key))return;
+document.querySelectorAll("button[data-case]").forEach(x=>x.setAttribute("aria-pressed",String(x===button)));
+document.getElementById("candidate").src="weather-"+key+"-432x40.png";
+document.getElementById("candidate").alt="SIMULATED UTH LED Weather sample: "+samples[key];
+document.getElementById("case-label").textContent="SIMULATED · "+samples[key]+" · ไม่ใช่ข้อมูลตรวจวัดปัจจุบัน";
+}));
+</script></body></html>
