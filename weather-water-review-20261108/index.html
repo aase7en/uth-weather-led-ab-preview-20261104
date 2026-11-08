@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark"><title>UTH LED — Weather °C and Water 7D review · 08 Nov 2026</title>
+<style>
+:root{color-scheme:dark;font:14px/1.65 Inter,"Noto Sans Thai",system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:#061322;color:#eefaff}
+main{max-width:1130px;margin:auto;padding:24px 16px 60px}
+h1{font-size:clamp(22px,3.8vw,32px);line-height:1.3;margin:3px 0 12px}h2{font-size:20px;margin:0 0 7px}
+p{color:#b9d4e4;margin:8px 0 13px}h3{font-size:15px;margin:9px 0 6px}
+.sub{font-size:12px;color:#a7c9db}.notice{padding:12px 15px;margin:19px 0;border:1px solid #a47c3c;border-radius:9px;background:#2b2015;color:#ffe5bf;font-size:13px}
+.panel{margin:20px 0;padding:16px;border:1px solid #376b85;border-radius:14px;background:#0c2335}
+.led{display:block;width:100%;height:auto;aspect-ratio:10.8;object-fit:contain;border:1px solid #337e9e;border-radius:6px;background:#010913}
+.buttons{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+button{padding:8px 13px;border-radius:8px;border:1px solid #4385a2;background:#11364b;color:#e1f6ff;cursor:pointer;font:700 13px inherit}
+button[aria-pressed=true]{background:#1a6485;border-color:#a0eaff}
+a{color:#92dfff}a:focus-visible,button:focus-visible{outline:2px solid #ffda92;outline-offset:3px}
+.mini{font-size:12px;color:#b9d4e4}
+.key{display:inline-block;min-width:95px;color:#fff;font-weight:800}
+.note{padding:10px 0;border-bottom:1px solid #24475d}
+footer{margin-top:24px;color:#afcad9;font-size:12px;line-height:1.7}
+@media(max-width:520px){main{padding:15px 9px 38px}.panel{padding:10px}.notice{padding:10px}}
+</style></head><body><main>
+<p class="sub">UTH LED · VISUAL REVIEW CANDIDATE · 8 NOV 2026</p>
+<h1>ปรับความชัดของ °C และกราฟ Water Level</h1>
+<p>แก้ไขเฉพาะการจัดวางของสองหน้า โดยคงข้อมูลจริง, แหล่งข้อมูล, เวลาอ้างอิง, เกณฑ์สถานะ, การหมุนเวียนหน้า และ PM2.5 เดิมไว้</p>
+<div class="notice"><strong>SIMULATED QA — ตัวเลขในภาพเป็นข้อมูลจำลองสำหรับทดสอบการแสดงผล ไม่ใช่ค่าตรวจวัดปัจจุบัน</strong><div>ภาพทั้งหมดสร้างจาก renderer ของเว็บจริงใน Candidate Branch ยังไม่ได้ Merge หรือ Deploy สู่ Production</div></div>
+<section class="panel">
+<h2>1. Weather — °C ห้อยท้ายตัวเลข</h2>
+<p>เดิมเครื่องหมายองศาถูกบีบโดยระยะติดลบและยกสูงเกินไป ตอนนี้วาง <strong>°C</strong> หลังตัวเลขด้วยสีทึบและเว้นช่องว่าง โดยไม่บังส่วน Forecast 4+3 วัน</p>
+<div class="buttons" role="group" aria-label="เลือกตัวเลขอุณหภูมิจำลอง">
+<button type="button" data-w="24" aria-pressed="true">24°C</button>
+<button type="button" data-w="100" aria-pressed="false">100°C — Test</button>
+<button type="button" data-w="1000" aria-pressed="false">1000°C — Edge Test</button>
+</div>
+<img id="weather" class="led" src="weather-24-432x40.png" alt="ภาพจำลอง Weather 24 องศาเซลเซียส โดยเห็นสัญลักษณ์องศาต่อท้าย" width="1296" height="120">
+<p id="weather-label" class="mini" aria-live="polite">SIMULATED · 24°C · ตรวจเครื่องหมาย ° ก่อน C และช่องว่างจากตัวเลข</p>
+</section>
+<section class="panel">
+<h2>2. Water Level — กราฟและหน่วยมาตรฐาน</h2>
+<p>กราฟเดิมสั้น เพราะใช้แกนเวลาเต็ม 7 วัน ทั้งที่มีข้อมูลจริงครอบคลุมไม่ถึง 2 วัน จึงปรับความยาวให้พอดีกับ <strong>ช่วงเวลาที่มีข้อมูลจริง</strong> พร้อมบอกระยะเวลาที่มีอยู่ ไม่เติมข้อมูลที่ขาด</p>
+<div class="buttons" role="group" aria-label="เลือกสถานะประวัติระดับน้ำจำลอง">
+<button type="button" data-water="history" aria-pressed="true">มีประวัติ 31H / 41H</button>
+<button type="button" data-water="missing" aria-pressed="false">ไม่มีประวัติ</button>
+</div>
+<img id="water" class="led" src="water-31h-41h-432x40.png" alt="ภาพจำลอง Water Level สองสถานี มีกราฟที่แสดงข้อมูล 31 ชั่วโมง และ 41 ชั่วโมงในช่วงย้อนหลังเจ็ดวัน" width="1296" height="120">
+<p id="water-label" class="mini" aria-live="polite">SIMULATED · HDA004 31H / 7D · S.5 41H / 7D · 30 ข้อมูลต่อสถานี</p>
+<div class="note"><span class="key">m MSL</span> metre(s) relative to Mean Sea Level — เมตรเทียบระดับทะเลปานกลาง (ม.รทก.) ไม่ได้เปลี่ยนค่าตัวเลข</div>
+<div class="note"><span class="key">31H / 7D</span> มีข้อมูลครอบคลุม 31 ชั่วโมง ภายในช่วงที่ระบบค้นย้อนหลังได้สูงสุด 7 วัน — ไม่ได้หมายถึงมีข้อมูลครบ 7 วัน</div>
+<div class="note"><span class="key">OBS</span> Observed — เวลาอ้างอิงการตรวจวัดจากแหล่งข้อมูล ไม่ใช่เวลาโหลดหน้าเว็บ</div>
+<div class="note"><span class="key">GROUND–BANK</span> สัดส่วนช่วงระดับพื้นอ้างอิงถึงตลิ่งต่ำสุด ไม่ใช่เปอร์เซ็นต์ความเสี่ยงน้ำท่วม</div>
+<p class="mini">ชื่อสถานีและป้ายเทียบตลิ่งยังเป็นภาษาไทย เพื่อให้สื่อความหมายด้านความปลอดภัยชัดเจนตามเดิม</p>
+</section>
+<footer>
+PR Production Candidate: <a href="https://github.com/aase7en/webapp-widget/pull/98">#98</a> · Exact SHA f46ed13497adfffbab463173fc29f97816ba1ac6 · 524/524 Local Tests PASS · Puppeteer 432×40 PASS · Browser/physical LED Safari ไม่ใช่ผลยืนยัน Production
+<p><a href="../owner-review-20261107/">ดูรูปแบบก่อนหน้า</a> · <a href="https://aase7en.github.io/webapp-widget/">เปิด Production ปัจจุบัน (ยังไม่แก้รอบนี้)</a></p>
+</footer>
+</main><script>
+"use strict";
+const weatherLabel={24:"24°C",100:"100°C",1000:"1000°C"};
+document.querySelectorAll("[data-w]").forEach(b=>b.addEventListener("click",()=>{
+ const v=b.dataset.w;if(!Object.prototype.hasOwnProperty.call(weatherLabel,v))return;
+ document.querySelectorAll("[data-w]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));
+ document.getElementById("weather").src="weather-"+v+"-432x40.png";
+ document.getElementById("weather").alt="SIMULATED Weather with clearly visible temperature "+weatherLabel[v];
+ document.getElementById("weather-label").textContent="SIMULATED · "+weatherLabel[v]+" · QA only, not an actual weather reading";
+}));
+document.querySelectorAll("[data-water]").forEach(b=>b.addEventListener("click",()=>{
+ const v=b.dataset.water;if(v!=="history"&&v!=="missing")return;
+ document.querySelectorAll("[data-water]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));
+ document.getElementById("water").src=v==="history"?"water-31h-41h-432x40.png":"water-no-history-432x40.png";
+ document.getElementById("water").alt=v==="history"?"SIMULATED two water station trends with honest 31H and 41H coverage":"SIMULATED two water stations with NO DATA explicitly shown for missing history";
+ document.getElementById("water-label").textContent=v==="history"?"SIMULATED · HDA004 31H / 7D · S.5 41H / 7D · 30 sample points each":"SIMULATED · 7D HISTORY / NO DATA · no fabricated water trend";
+}));
+</script></body></html>
