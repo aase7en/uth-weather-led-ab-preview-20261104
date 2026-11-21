@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,">
+<title>Original Water Design + Percent · UTH LED Preview</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;color:#e5f6ff;background:radial-gradient(ellipse at 45% -22%,#17486f,#061525 63%,#030a16)}
+main{max-width:1480px;margin:0 auto;padding:30px 20px 44px}
+h1{font-size:clamp(24px,3vw,34px);letter-spacing:-.5px;margin:8px 0}
+p{color:#aecedf;line-height:1.6}
+.eyebrow{color:#6ce8e0;font-size:11px;letter-spacing:1.3px;font-weight:800}
+.notice{border-radius:12px;border:1px solid #477a9b;background:#12314b;padding:10px 14px;margin:16px 0 19px}
+.notice strong{color:#b6fdf0}
+form{display:flex;flex-wrap:wrap;align-items:end;gap:12px;margin-bottom:18px}
+label{display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:750;color:#bbdcec}
+select{min-height:38px;border-radius:9px;border:1px solid #3c7491;background:#0e2b43;color:white;padding:6px 11px;font:600 13px system-ui}
+.scale{display:flex;gap:4px;padding:3px;border-radius:10px;background:#092841;border:1px solid #376380}
+button{background:transparent;color:#b1dbea;border:0;cursor:pointer;min-height:32px;padding:6px 12px;border-radius:7px}
+button.active{background:#167ca9;color:white;font-weight:800}
+button:focus-visible,select:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.preview{border:1px solid #376587;background:linear-gradient(145deg,#0b2840,#061424);border-radius:17px;padding:16px}
+.topline{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:12px;color:#c8e6f3;margin-bottom:10px}
+.viewport{max-width:100%;overflow:auto;padding:8px 0 15px;scrollbar-color:#36758c #082139}
+.frame-stage{position:relative;width:calc(432px * var(--z));height:calc(40px * var(--z));}
+.frame-stage iframe{display:block;position:absolute;left:0;top:0;width:432px;height:40px;border:0;transform:scale(var(--z));transform-origin:0 0;background:#020914}
+.bottomline{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;color:#9cbcd0;font-size:11px;margin-top:4px}
+.details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:15px 0}
+.detail{border:1px solid #315b77;border-radius:12px;padding:12px 15px;background:#0b263d;color:#bad5e6}
+.detail strong{color:#e5faff}
+.detail p{font-size:12px;margin:4px 0}
+.summary{border-top:1px solid #36516a;margin-top:20px;padding-top:12px;font-size:12px}
+a{color:#a8f0ff}
+footer{font-size:11px;color:#8eacbd;margin-top:24px}
+@media(max-width:600px){main{padding:20px 10px 38px}.preview{padding:12px 9px}.details{grid-template-columns:1fr}}
+</style></head>
+<body><main>
+<div class="eyebrow">UTH[AI] · WATER LEVEL · OWNER VISUAL REVIEW · 2026-11-21</div>
+<h1>Design เดิม + ตัวเลขใหม่</h1>
+<p>ยึดภาพน้ำ Animation, สี, กรอบเรืองแสง, กราฟย้อนหลัง และนาฬิกาจาก Production เดิม เปลี่ยนเฉพาะตำแหน่งค่าเปอร์เซ็นต์ ลูกศร และข้อความระยะห่างจากตลิ่ง</p>
+<div class="notice"><strong>DEMO — SIMULATED DATA</strong> ตัวเลขและแนวโน้มทั้งหมดเป็นข้อมูลจำลองสำหรับตรวจการจัดวาง ไม่ได้อ่าน ThaiWater/API หรือ Google Sheet และไม่ใช่ระบบเตือนภัยน้ำท่วม</div>
+<form id="controls">
+<label>สถานการณ์ทดลอง<select id="scenario">
+<option value="sample">ตัวอย่าง 76.1% / 71.3%</option>
+<option value="near">ระดับใกล้ตลิ่ง 94%</option>
+<option value="at">ถึงตลิ่ง 100%</option>
+<option value="above">สูงกว่าตลิ่ง 102–104%</option>
+<option value="stale">ข้อมูลย้อนหลัง (งด%)</option>
+<option value="missing">ข้อมูลไม่พร้อม (งด%)</option>
+</select></label>
+<label>การจัดวาง<select id="focus"><option value="dual">สองสถานี</option><option value="HDA004">เน้นช่องสะเดา</option><option value="S5">เน้นสะพานปรีดี</option></select></label>
+<div><div style="font-size:12px;margin-bottom:5px;color:#bbdcec;font-weight:700">ขนาดแสดงผล</div><div class="scale" role="group" aria-label="ขยายจอ"><button type="button" data-zoom="1">1×</button><button type="button" data-zoom="2">2×</button><button type="button" data-zoom="3" class="active">3×</button></div></div>
+</form>
+<section class="preview"><div class="topline"><strong>ภาพจาก Water Level Design เดิม — Logical LED 432×40</strong><span>ภาพน้ำและกราฟจาก Production source เดิม</span></div>
+<div class="viewport" tabindex="0" aria-label="เลื่อนดูภาพตัวอย่าง LED"><div class="frame-stage" id="stage" style="--z:3"><iframe title="DEMO Water Level original animation with percent overlay" id="led" src="./led.html?scenario=sample"></iframe></div></div>
+<div class="bottomline"><span>Native 432×40 · Original water Sprite + original 7D trend renderer</span><span>สีสถานะเดิมไม่ใช่ระดับเตือนภัยอย่างเป็นทางการ</span></div></section>
+<div class="details" id="details" aria-live="polite"></div>
+<section class="summary"><strong>หมายเหตุด้านข้อมูล:</strong> % คือสัดส่วนช่วงระดับพื้นอ้างอิงถึงระดับตลิ่งต่ำสุดของสถานี ไม่ใช่ความจุแม่น้ำหรือโอกาสน้ำท่วม ลูกศรใน Demo ใช้จุดข้อมูลจำลอง ส่วน Production ต้องคำนวณจากข้อมูลตรวจวัดจริงที่มีเวลาชัดเจน<br>
+<a href="../water-bank-clarity-20261121/">เปรียบเทียบกับ Demo แบบ Layout ใหม่ก่อนหน้า</a> · <a href="https://aase7en.github.io/webapp-widget/v2/water-luxury-live.html">ดู Production เดิม (ข้อมูลจริง)</a></section>
+<footer>Preview only — no production changes. HDA004 and S.5 are external reference stations, not Uthai Hospital flood sensors.</footer>
+<script>
+(()=>{'use strict';
+const scenario=document.getElementById('scenario'),focus=document.getElementById('focus'),frame=document.getElementById('led'),stage=document.getElementById('stage');
+function render(){
+ const params=new URLSearchParams({scenario:scenario.value,focus:focus.value});frame.src='./led.html?'+params.toString();
+ document.getElementById('details').innerHTML=['HDA004 ช่องสะเดา','S.5 สะพานปรีดี'].map((name,i)=>{
+  const lv=i===0?2.36:.88,g=i===0?.227:-8.59,b=i===0?3.03:4.70,pct=(lv-g)/(b-g)*100;
+  return '<article class="detail"><strong>'+name+' (ตัวอย่าง)</strong><p>ระดับน้ำ MSL: '+lv.toFixed(2)+' ม. · ตลิ่งต่ำสุด MSL: '+b.toFixed(2)+' ม.</p><p>สัดส่วนช่วงพื้น–ตลิ่ง: '+pct.toFixed(1)+'% · ระยะถึงตลิ่ง: '+(b-lv).toFixed(2)+' ม.</p><p>ข้อมูลจำลองเพื่อทดสอบ Layout ไม่ใช่สถานการณ์ปัจจุบัน</p></article>';
+ }).join('');
+}
+scenario.addEventListener('change',render);focus.addEventListener('change',render);
+document.querySelectorAll('[data-zoom]').forEach(b=>b.addEventListener('click',()=>{
+ stage.style.setProperty('--z',b.dataset.zoom);
+ document.querySelectorAll('[data-zoom]').forEach(x=>x.classList.toggle('active',x===b));
+}));
+render();
+})();
+</script></main></body></html>
