@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>ตัวอย่าง Water Level — ระดับน้ำเทียบตลิ่ง | UTH LED</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<main class="page">
+  <header class="mast">
+    <div class="eyebrow"><span class="demo-dot"></span> DEMO / PROTOTYPE · 21 พฤศจิกายน 2569</div>
+    <h1>Water Level <span>อ่านระดับน้ำให้ง่ายขึ้น</span></h1>
+    <p>ทดลองตำแหน่งตัวเลขสำหรับ LED 432 × 40 พิกเซล โดยแสดงเปอร์เซ็นต์ช่วงพื้นอ้างอิง–ตลิ่ง และระยะที่ยังต่ำกว่าตลิ่ง</p>
+  </header>
+  <div class="disclaimer" role="note"><strong>ข้อมูลจำลองเพื่อทดสอบ UI</strong> ไม่เชื่อมต่อ API หรือ Google Sheet และไม่ใช่คำเตือนภัยน้ำท่วม</div>
+  <section class="controls" aria-label="ปรับตัวอย่าง">
+    <div class="control">
+      <label for="scenario">สถานการณ์จำลอง</label>
+      <select id="scenario">
+        <option value="sample">ตัวอย่างสองสถานี (76% / 71%)</option>
+        <option value="near">อยู่ต่ำกว่าตลิ่งเล็กน้อย (94%)</option>
+        <option value="at">ถึงตลิ่งอ้างอิง (100%)</option>
+        <option value="above">สูงกว่าตลิ่งอ้างอิง (&gt;100%)</option>
+        <option value="stale">ข้อมูลเก่า (Historical)</option>
+        <option value="missing">ไม่มีข้อมูล (Unavailable)</option>
+      </select>
+    </div>
+    <div class="control">
+      <span class="control-label">รูปแบบจอ</span>
+      <div class="toggles" role="group" aria-label="มุมมอง">
+        <button type="button" data-view="dual" aria-pressed="true" class="selected">สองสถานี</button>
+        <button type="button" data-view="focus" aria-pressed="false">เน้นสถานี</button>
+      </div>
+    </div>
+    <div class="control">
+      <label for="station">สถานีที่เน้น</label>
+      <select id="station"><option value="HDA004">HDA004 ช่องสะเดา</option><option value="S5">S.5 สะพานปรีดี</option></select>
+    </div>
+    <div class="control">
+      <span class="control-label">ขนาด</span>
+      <div class="toggles" role="group" aria-label="ขนาดตัวอย่าง">
+        <button type="button" data-zoom="1" aria-pressed="false">1×</button>
+        <button type="button" data-zoom="2" aria-pressed="false">2×</button>
+        <button type="button" data-zoom="3" aria-pressed="true" class="selected">3×</button>
+      </div>
+    </div>
+  </section>
+  <section class="preview" aria-labelledby="preview-title">
+    <div class="preview-label"><strong id="preview-title">LED Board</strong><span>432 × 40 logical px · กรอบเดียวกับ PM2.5 / Weather</span></div>
+    <div class="scroller" tabindex="0" aria-label="เลื่อนดูตัวอย่างเมื่อหน้าจอเล็ก">
+      <div id="led-stage" class="led-stage" style="--zoom:3">
+        <div class="led-board" id="led-board" role="img" aria-label="ตัวอย่างการอ่านระดับน้ำจากสถานีอ้างอิง ข้อมูลจำลอง">
+          <div class="led-clock"><span class="clock-title">ระดับน้ำ</span><span class="clock-time">20:55</span><span class="clock-label">DEMO</span></div>
+          <article class="led-station" id="st-HDA004" data-code="HDA004">
+            <div class="water-art" aria-hidden="true"><span class="wave wave-one"></span><span class="wave wave-two"></span><span class="water-glint"></span></div>
+            <div class="station-content"><div class="station-top"><strong class="station-name">ช่องสะเดา</strong><span class="stamp">ตัวอย่าง</span></div><div class="station-middle"><span class="big-pct">—<small>%</small></span><span class="arrow">—</span></div><div class="station-bottom">รอข้อมูล</div></div>
+          </article>
+          <article class="led-station" id="st-S5" data-code="S5">
+            <div class="water-art" aria-hidden="true"><span class="wave wave-one"></span><span class="wave wave-two"></span><span class="water-glint"></span></div>
+            <div class="station-content"><div class="station-top"><strong class="station-name">สะพานปรีดี</strong><span class="stamp">ตัวอย่าง</span></div><div class="station-middle"><span class="big-pct">—<small>%</small></span><span class="arrow">—</span></div><div class="station-bottom">รอข้อมูล</div></div>
+          </article>
+        </div>
+      </div>
+    </div>
+    <div class="preview-footer"><span><span class="legend-dot"></span> สีเป็นการออกแบบ ไม่ใช่ระดับการแจ้งเตือนภัย</span><span>ลดการเคลื่อนไหวได้ตามระบบ</span></div>
+  </section>
+  <div class="details" id="details" aria-live="polite"></div>
+  <section class="context">
+    <h2>หลักการแสดงผลก่อนย้ายเข้าระบบจริง</h2>
+    <p><strong>ตัวเลขใหญ่</strong> = (ระดับน้ำ MSL − ระดับพื้นอ้างอิง MSL) ÷ (ตลิ่งต่ำสุด MSL − ระดับพื้นอ้างอิง MSL) × 100</p>
+    <p><strong>ข้อความรอง</strong> = ระดับตลิ่งต่ำสุด − ระดับน้ำที่ตรวจวัดจริง (เมตร) แสดงเมื่อข้อมูลอ้างอิงตรวจสอบได้เท่านั้น</p>
+    <p>เปอร์เซ็นต์นี้เป็นสัดส่วน <strong>ช่วงพื้นอ้างอิง–ตลิ่ง</strong> ไม่ใช่ความจุแม่น้ำ เปอร์เซ็นต์โอกาสเกิดน้ำท่วม หรือระดับเตือนภัยทางราชการ ส่วนระดับ MSL เวลาวัดและแหล่งข้อมูลยังต้องเปิดดูย้อนหลังได้สำหรับเจ้าหน้าที่</p>
+  </section>
+  <footer>© UTH[AI] Widget · Visual review only · ไม่มีการแก้ไขเว็บ Production</footer>
+</main>
+<script src="./app.js"></script>
+</body>
+</html>
