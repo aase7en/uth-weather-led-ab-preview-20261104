@@ -69,7 +69,7 @@ function renderStation(st){
  const safePath=st.historyPath||'',coverage=trendCaption(st.historyReading);
  const gap=usable&&Number.isFinite(st.bankM)&&Number.isFinite(st.value)?st.bankM-st.value:null;
  const gapText=gap===null?(st.status==='historical'?'ข้อมูลเก่า · งดแสดง%':'รอข้อมูลอ้างอิง'):gap<-.000001?'สูงกว่าตลิ่ง '+Math.abs(gap).toFixed(2)+' ม.':Math.abs(gap)<.000001?'ถึงตลิ่งอ้างอิง':'ต่ำกว่าตลิ่ง '+gap.toFixed(2)+' ม.';
- const observedShort=usable?'ตัวอย่าง '+new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Bangkok',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(st.observedAt)):'DEMO';
+ const observedShort=usable?'DEMO '+new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Bangkok',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(st.observedAt)):'DEMO';
  const wide=usable&&pct>=100?' wide-pct':'';
  target.innerHTML=`<div class="station-card"><div class="art-zone"><canvas class="water-canvas" width="420" height="210" aria-label="ภาพการไหลประกอบ ไม่ใช่สถานะประตูจริง"></canvas></div>
  <div class="info"><div class="station-name"><span>${st.name}</span><small>HII REFERENCE</small><span class="preview-stamp">${observedShort}</span></div>

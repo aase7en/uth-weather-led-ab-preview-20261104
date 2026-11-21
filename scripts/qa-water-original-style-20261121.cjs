@@ -33,6 +33,8 @@ const srv=http.createServer((req,res)=>{
    canvasLoaded:can.dataset.frame!==undefined,art:art.getBoundingClientRect().width,
    fitsRead:reading.scrollWidth<=reading.clientWidth+1,
    distFits:d.right<=r.right&&d.bottom<=r.bottom,graphFits:!g||g.right<=r.right,
+   distanceBoxRight:r.right-d.right,distanceBoxBottom:r.bottom-d.bottom,
+   textBottomToStation:(()=>{const x=document.createRange();x.selectNodeContents(distance);return r.bottom-x.getBoundingClientRect().bottom})(),
    textToStation:(()=>{const x=document.createRange();x.selectNodeContents(distance);return r.right-x.getBoundingClientRect().right})(),
    arrowToGraph:(()=>{const x=document.createRange();x.selectNodeContents(el.querySelector('.preview-trend'));return g?g.left-x.getBoundingClientRect().right:999})(),
    graphVsPct:g?g.left-a.right:999};
@@ -47,6 +49,11 @@ const srv=http.createServer((req,res)=>{
  assert.equal(metrics.display[0].arrow,'↑');
  assert.equal(metrics.display[1].arrow,'↓');
  assert.ok(metrics.display.every(x=>x.graph&&x.canvasLoaded&&x.art>0));
+ assert.ok(metrics.display.every(x=>x.fitsRead&&x.distFits&&x.graphFits),
+  'metric row and distance element boxes must fit physically within each station card');
+ assert.ok(await fr.$eval('#stationA .preview-stamp',el=>el.textContent.startsWith('DEMO ')),
+  'visible LED station must label simulation even for valid numeric cases');
+
  assert.ok(metrics.display.every(x=>x.textToStation>4&&x.arrowToGraph>2&&x.graphFits),
   'actual text and arrow must remain inside native LED and not overlap historical graph');
  await page.$eval('[data-zoom="1"]',b=>b.click());
